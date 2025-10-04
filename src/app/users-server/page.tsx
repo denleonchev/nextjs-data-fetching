@@ -7,6 +7,8 @@ type User = {
 }
 
 export default async function UsersServerPage() {
+    await new Promise(resolve => setTimeout(resolve, 2000)); //Simulate network delay
+    // throw new Error("Simulated error");
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const users: User[] = await response.json();
     console.log(users);
