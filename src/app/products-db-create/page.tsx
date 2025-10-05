@@ -1,43 +1,43 @@
+"use client";
+
 import { SubmitButton } from "@/components/submit";
-import { addProduct } from "@/prisma-db";
-import { redirect } from "next/navigation";
+import { createProduct, FormState } from "@/actions/products";
+import { useActionState } from "react";
+
+const initialState: FormState = {
+    errors: {},
+}
 
 export default function AddProductPage() {
-    async function createProduct(formData: FormData) {
-        "use server";
-        const title = formData.get("title") as string;
-        const price = formData.get("price") as string;
-        const description = formData.get("description") as string;
+  const [{ errors }, formAction, isPending] = useActionState(createProduct, initialState);
 
-        await addProduct(title, parseInt(price), description);
-
-        redirect('/products-db');
-    }
-
-    return (
-    <form action={createProduct} className="p-4 space-y-4 max-w-96">
+  return (
+    <form action={formAction} className="p-4 space-y-4 max-w-96">
       <label className="text-white">
         Title
         <input
           type="text"
-          className="block w-full p-2 text-black border rounded"
+          className="block w-full p-2 border rounded"
           name="title"
         />
+        {errors.title && <p className="text-red">{errors.title}</p>}
       </label>
       <label className="text-white">
         Price
         <input
           type="number"
-          className="block w-full p-2 text-black border rounded"
+          className="block w-full p-2 border rounded"
           name="price"
         />
+        {errors.price && <p className="text-red">{errors.price}</p>}
       </label>
       <label className="text-white">
         Description
         <textarea
-          className="block w-full p-2 text-black border rounded"
+          className="block w-full p-2 border rounded"
           name="description"
         />
+        {errors.description && <p className="text-red">{errors.description}</p>}
       </label>
       <SubmitButton>Add Product</SubmitButton>
     </form>
