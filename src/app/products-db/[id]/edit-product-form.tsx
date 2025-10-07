@@ -43,7 +43,7 @@ export default function EditProductForm({ id, title, price, description }: { id:
         />
         {errors.description && <p className="text-red">{errors.description}</p>}
       </label>
-      <SubmitButton>Add Product</SubmitButton>
+      <SubmitButton>Edit Product</SubmitButton>
     </form>
     )
 }
